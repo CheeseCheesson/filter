@@ -14,13 +14,14 @@ export const UserTable = ({
     onToggleBookMark,
     onDelete
 }) => {
+
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: {
             name: "Качества",
             component: (user) => <QualitesList qualities={user.qualities} />
         },
-        professions: { path: "profession.name", name: "Профкссия" },
+        professions: { path: "profession.name", name: "Профeссия" },
         completedMeetings: {
             path: "completedMeetings",
             name: "Встретился раз"
@@ -47,6 +48,7 @@ export const UserTable = ({
             )
         }
     };
+    
     return (
         // подход 1, нельзы изменять header
         // <Table
