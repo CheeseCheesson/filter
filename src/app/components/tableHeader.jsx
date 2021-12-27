@@ -5,7 +5,6 @@ import { useState } from "react/cjs/react.development";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const [currentName, setCurrentName] = useState("");
-    const [currentArrow, setCurrentArrow] = useState("");
 
     const handleSort = (item) => {
         if (selectedSort.path === item) {
@@ -20,11 +19,20 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                 order: "asc"
             });
         }
-        handleArow(selectedSort.order);
     };
-    const handleArow = (dir) => {
-        dir === "asc" ? setCurrentArrow("up") : setCurrentArrow("down");
+    const handleArow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                console.log(selectedSort.path, currentPath);
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
+        }
+
+        return null;
     };
+
     return (
         <thead>
             <tr>
@@ -39,17 +47,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                         {...{ role: columns[column].path && "button" }}
                     >
-                        {columns[column].name}
-
-                        {columns[column].path === currentName ? (
-                            <i
-                                className={
-                                    "bi bi-caret-" + currentArrow + "-fill"
-                                }
-                            ></i>
-                        ) : (
-                            ""
-                        )}
+                        {columns[column].name}{" "}
+                        {handleArow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>

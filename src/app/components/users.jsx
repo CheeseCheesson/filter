@@ -14,7 +14,7 @@ const Users = () => {
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
 
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
@@ -59,14 +59,10 @@ const Users = () => {
     };
     if (users) {
         const filtredUsers = selectedProf
-            ? users.filter((item) => selectedProf.name === item.profession.name)
+            ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProf))
             : users;
         const count = filtredUsers.length;
-        const sortedUsers = _.orderBy(
-            filtredUsers,
-            [sortBy.path],
-            [sortBy.order]
-        );
+        const sortedUsers = _.orderBy(filtredUsers, [sortBy.path], [sortBy.order]);
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
         return (
             <>
